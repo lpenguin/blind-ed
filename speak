@@ -1,5 +1,9 @@
 #!/bin/bash
 while true; do
 	read text
+	if [[ z"$text" == z"" ]] ; then
+		echo "empty line exit"
+		break
+	fi
 	echo $text | text2wave | aplay
 done
