@@ -1,0 +1,1 @@
+sh -o verbose 2>&1 | ./speak
