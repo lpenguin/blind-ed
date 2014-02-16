@@ -1,9 +1,25 @@
 #!/bin/bash
-while true; do
-	read text
-	if [[ z"$text" == z"" ]] ; then
-		echo "empty line exit"
-		break
-	fi
-	echo $text | text2wave | aplay
+
+log=./log.txt
+
+need_exit=0
+tag=SPEAK
+trap control_c SIGINT
+control_c()
+{
+  say "Exiting"
+  need_exit=1
+  #exit $?
+}
+
+say(){
+    text=$1
+    echo "$tag: $text"
+    echo "$text" | festival --tts --language russian | aplay 2>$log 
+}
+
+while [[ $need_exit != 1 ]]; do
+    read text
+    say "$text"
 done
+
